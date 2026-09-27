@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151019">
+  <meta name="description" content="EMS Zeiterfassung als Terminal. Vier Vorlagen, lokale Speicherung und Discord-Ausgabe.">
+  <title>EMS // Terminal</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23151019'/%3E%3Cpath d='m7 9 7 7-7 7M18 23h8' fill='none' stroke='%237de5c1' stroke-width='3'/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar"><span><span class="accent">ems</span>@leitstelle <span class="muted">: ~</span></span><span class="top-meta">LOKAL <span aria-hidden="true">/</span> <time id="clock">--:--</time></span></header>
+    <main>
+      <section class="welcome" aria-labelledby="title">
+        <pre class="wordmark" aria-hidden="true">███████╗███╗   ███╗███████╗
+██╔════╝████╗ ████║██╔════╝
+█████╗  ██╔████╔██║███████╗
+██╔══╝  ██║╚██╔╝██║╚════██║
+███████╗██║ ╚═╝ ██║███████║
+╚══════╝╚═╝     ╚═╝╚══════╝</pre>
+        <div class="system-info"><p class="eyebrow">EMERGENCY MEDICAL SERVICE</p><h1 id="title">Zeiterfassung<span class="accent">_</span></h1><p><span class="muted">interface</span> terminal / v1.0</p><p><span class="muted">speicher</span> <span id="storage-state">lokaler Browser</span></p><p><span class="muted">bedienung</span> Befehl + Enter</p><div class="swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      </section>
+      <div class="workspace">
+        <section class="terminal" aria-label="Interaktives Terminal">
+          <div class="section-line"><span><span class="accent">01</span> / TERMINAL</span><span id="mode-label">~/abteilung</span></div>
+          <div class="intro"><p>Willkommen im Dienst.</p><p class="muted">Wähle zuerst deine Abteilung. Name oder Nummer eingeben.</p></div>
+          <nav class="choices" aria-label="Abteilung wählen">
+            <button type="button" data-command="standard"><span class="choice-no">01</span><span>standard</span><small>Regulärer Dienst</small></button>
+            <button type="button" data-command="abteilungsarbeit"><span class="choice-no">02</span><span>abteilungsarbeit</span><small>Arbeit in einer Abteilung</small></button>
+            <button type="button" data-command="ausbildung"><span class="choice-no">03</span><span>ausbildung</span><small>Ausbilder &amp; Küken</small></button>
+            <button type="button" data-command="luftrettung"><span class="choice-no">04</span><span>luftrettung</span><small>Pilot &amp; Co-Pilot</small></button>
+          </nav>
+          <div id="log" class="log" role="log" aria-label="Terminalverlauf" aria-live="polite" aria-relevant="additions"></div>
+          <form id="command-form" autocomplete="off">
+            <label id="question" for="command-input">Welche Abteilung möchtest du öffnen?</label>
+            <div class="command-row"><span class="prompt" aria-hidden="true">λ</span><input id="command-input" type="text" aria-describedby="input-hint" placeholder="z. B. standard" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="160"><button type="submit" class="enter" aria-label="Eingabe bestätigen">Enter ↵</button></div>
+            <p id="input-hint" class="hint">Mit /hilfe alle Befehle anzeigen.</p>
+          </form>
+          <div class="shortcuts" aria-label="Terminalbefehle"><button data-command="/hilfe">/hilfe</button><button data-command="/beginn" data-prefill="true">/beginn HH:MM</button><button data-command="/end" data-prefill="true">/end HH:MM</button><button data-command="/bearbeiten">/bearbeiten</button><button data-command="/austragen">/austragen</button></div>
+        </section>
+        <aside class="output" aria-labelledby="output-title">
+          <div class="section-line"><span id="output-title"><span class="accent">02</span> / DISCORD-AUSGABE</span><span id="status">BEREIT</span></div>
+          <div class="output-body"><div class="file-label"><span id="file-label">eintrag.txt</span><span>UTF-8</span></div><textarea id="result" aria-label="Discord-Text" readonly spellcheck="false" placeholder="Dein Eintrag erscheint hier, sobald du eine Abteilung wählst."></textarea><button id="copy" class="copy" type="button" disabled>Text kopieren <span aria-hidden="true">↗</span></button><p id="copy-status" role="status" class="hint"></p></div>
+          <p class="output-note"><span class="mint">/beginn 18:00</span><br>Korrigiert deine Startzeit – auch nach dem Neuladen.</p>
+          <p class="output-note"><span class="mint">/end HH:MM</span><br>Setzt oder korrigiert deine Endzeit, z. B. /end 20:30, und kopiert den Discord-Text automatisch.</p>
+          <p class="output-note"><span class="mint">/austragen</span><br>Setzt die aktuelle Endzeit, ergänzt ~~ für Discord und kopiert den Text automatisch.</p>
+        </aside>
+      </div>
+      <p id="storage-warning" role="status" hidden></p>
+    </main>
+    <footer><span>Name, Daten &amp; laufender Eintrag bleiben in diesem Browser.</span><span><span class="mint">/neu</span> neuer Dienst · <span class="mint">/loeschen</span> Speicher leeren</span></footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
